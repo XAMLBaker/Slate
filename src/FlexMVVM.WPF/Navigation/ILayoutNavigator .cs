@@ -31,32 +31,53 @@ namespace FlexMVVM.Navigation
 
         public void RootLayout()
         {
-            Type contentType = NameContainer.RootLayout;
+            Type rootLayoutType = NameContainer.RootLayout;
 
-            var layOutObject = (UIElement)NameContainer.ServiceProvider.GetService (contentType);
+            if (rootLayoutType == null)
+            {
+
+                return;
+            }
+
+            var layOutObject = (UIElement)NameContainer.ServiceProvider.GetService (rootLayoutType);
           
             if (layOutObject is DockPanel dockPanel)
             {
                 Contentemove (dockPanel);
-                bool _isGroupedWithRegion = IsGroupedWithRegion (contentType.Namespace);
+                bool _isGroupedWithRegion = IsGroupedWithRegion (rootLayoutType.Namespace);
                 if (_isGroupedWithRegion == false)
                     return;
-                LayerPress (contentType);
+                LayerPress (rootLayoutType);
             }
         }
 
         public void NavigateTo(string url)
         {
             string _url = url.Replace ('/', '.');
-            Type contentType = NameContainer.RootLayout;
 
-            var layOutObject = (UIElement)NameContainer.ServiceProvider.GetService (contentType);
+            Type rootLayoutType = NameContainer.RootLayout;
 
-            var element = CreateLayout (_url);
+            UIElement layout;
+            if(rootLayoutType == null)
+            {
+                layout = CreateLayout (_url);
+                Type winType = NameContainer.RegisterType["FlexFrameworkWindow"];
+                var winObject = (UIElement)NameContainer.ServiceProvider.GetService (winType);
+                if (winObject is Window window)
+                {
+                    window.Content = layout;
+                    RootLayout ();
+                }
+                return;
+            }
+
+            var layOutObject = (UIElement)NameContainer.ServiceProvider.GetService (rootLayoutType);
+
+            layout = CreateLayout (_url);
             if (layOutObject is DockPanel dockPanel)
             {
                 Contentemove (dockPanel);
-                dockPanel.Children.Add (element);
+                dockPanel.Children.Add (layout);
             }
         }
 

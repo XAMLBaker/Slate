@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 
 namespace FlexMVVM.WPF
@@ -74,13 +73,13 @@ namespace FlexMVVM.WPF
             return this;
         }
 
-        public FlexFluent MainLayout<T>()
+        public FlexFluent BaseLayout<T>()
         {
             NameContainer.RootLayout = typeof (T);
             return this;
         }
 
-        public FlexFluent MainLayout<T>(Func<T> content)
+        public FlexFluent BaseLayout<T>(Func<T> content)
         {
             NameContainer.RootLayout = typeof (T);
             return this;
