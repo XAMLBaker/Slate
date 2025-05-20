@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DryIoc;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,13 +16,19 @@ namespace FlexMVVM.Navigation
 
     public class LayoutNavigator : ILayoutNavigator
     {
+        private readonly IContainer _container;
+
+        public LayoutNavigator(IContainer container)
+        {
+            this._container = container;
+        }
         public void SetRootLayout()
         {
-            Type winType = NameContainer.RegisterType["FlexFrameworkWindow"];
-            Type contentType = NameContainer.RootLayout;
-
-            var winObject = (UIElement)NameContainer.ServiceProvider.GetService (winType);
-            var layOutObject = (UIElement)NameContainer.ServiceProvider.GetService (contentType);
+            Type winType = RegisterProvider.GetWindow();
+            Type rootLayoutType = RegisterProvider.GetDefineNestedLayout();
+            
+            var winObject = (UIElement)this._container.Resolve (winType);
+            var layOutObject = (UIElement)this._container.Resolve (rootLayoutType);
             if (winObject is Window window)
             {
                 window.Content = layOutObject;
@@ -31,15 +38,14 @@ namespace FlexMVVM.Navigation
 
         public void RootLayout()
         {
-            Type rootLayoutType = NameContainer.RootLayout;
+            Type rootLayoutType = RegisterProvider.GetDefineNestedLayout();
 
             if (rootLayoutType == null)
             {
-
                 return;
             }
 
-            var layOutObject = (UIElement)NameContainer.ServiceProvider.GetService (rootLayoutType);
+            var layOutObject = (UIElement)this._container.Resolve (rootLayoutType);
           
             if (layOutObject is DockPanel dockPanel)
             {
@@ -55,37 +61,33 @@ namespace FlexMVVM.Navigation
         {
             string _url = url.Replace ('/', '.');
 
-            Type rootLayoutType = NameContainer.RootLayout;
+            Type rootLayoutType = RegisterProvider.GetDefineNestedLayout();
 
-            UIElement layout;
-            if(rootLayoutType == null)
+            UIElement layout = CreateLayout (_url);
+            if (rootLayoutType == null)
             {
-                layout = CreateLayout (_url);
-                Type winType = NameContainer.RegisterType["FlexFrameworkWindow"];
-                var winObject = (UIElement)NameContainer.ServiceProvider.GetService (winType);
+                Type winType = RegisterProvider.GetWindow();
+                var winObject = (UIElement)this._container.Resolve (winType);
                 if (winObject is Window window)
                 {
                     window.Content = layout;
-                    RootLayout ();
                 }
                 return;
             }
 
-            var layOutObject = (UIElement)NameContainer.ServiceProvider.GetService (rootLayoutType);
-
-            layout = CreateLayout (_url);
+            var layOutObject = (UIElement)this._container.Resolve (rootLayoutType);
             if (layOutObject is DockPanel dockPanel)
             {
                 Contentemove (dockPanel);
                 dockPanel.Children.Add (layout);
             }
-        }
+       }
 
         public UIElement CreateLayout(string url)
         {
             try
             {
-                if (NameContainer.RegisterType.Keys.Any(x=>x.Contains(url)) == false)
+                if (RegisterProvider.HasPartialKeyMatch (url) == false)
                     throw new Exception ("Module 등록되지 않은 url 입니다.");
 
                 bool _isGroupedWithLayout = IsGroupedWithLayout (url);
@@ -95,7 +97,7 @@ namespace FlexMVVM.Navigation
                     throw new Exception ("등록 된 Layout 또는 Page가 없습니다.");
 
                 string typeNameSpace = _isGroupedWithLayout ? GetLayoutString (url) : GetRegionString(url);
-                Type contentType = NameContainer.RegisterType[typeNameSpace];
+                Type contentType = RegisterProvider.GetType(typeNameSpace);
                 if (_isGroupedWithLayout && _isGroupedWithRegion)
                 {
                     LayerPress (contentType);
@@ -110,7 +112,7 @@ namespace FlexMVVM.Navigation
                     var parentFolderUrl = RemoveLastSegment (contentType.Namespace);
                     rootPanel = CreateLayout ($"{parentFolderUrl}");
                 }
-                UIElement layOutObject = (UIElement)NameContainer.ServiceProvider.GetService (contentType);
+                UIElement layOutObject = (UIElement)this._container.Resolve (contentType);
 
                 if (rootPanel != null)
                 {
@@ -124,6 +126,7 @@ namespace FlexMVVM.Navigation
             }
             catch (Exception ex)
             {
+
             }
             return null;
         }
@@ -148,13 +151,13 @@ namespace FlexMVVM.Navigation
         {
             if(url.Split('.').Last() == "Layout")
                 return true;
-            return NameContainer.RegisterType.ContainsKey (GetLayoutString (url));
+            return RegisterProvider.IsUrlRegistered(GetLayoutString (url));
         }
         private bool IsGroupedWithRegion(string url)
         {
             if (url.Split ('.').Last () == "Region")
                 return true;
-            return NameContainer.RegisterType.ContainsKey (GetRegionString (url));
+            return RegisterProvider.IsUrlRegistered (GetRegionString (url));
         }
 
         private void LayerPress(Type layoutType)
@@ -162,8 +165,8 @@ namespace FlexMVVM.Navigation
             var _region = layoutType.Assembly.DefinedTypes.Where (x => x.Namespace == layoutType.Namespace)
                                                          .First (x => x.Name == "Region");
 
-            var layOutObject = (UIElement)NameContainer.ServiceProvider.GetService (layoutType);
-            var regionObject = (UIElement)NameContainer.ServiceProvider.GetService (_region);
+            var layOutObject = (UIElement)this._container.Resolve (layoutType);
+            var regionObject = (UIElement)this._container.Resolve (_region);
             if (layOutObject is DockPanel dockPanel)
             {
                 Contentemove (dockPanel);
