@@ -24,6 +24,7 @@ namespace FlexMVVM
             this._moduleCatalog = moduleCatalog;
         }
 
+        public IContainerRegistry ContainerRegistry => this._containerRegistry;
         public IServiceCollection Services => this._containerRegistry.Services;
 
         public void ModuleRegister()
