@@ -35,11 +35,6 @@ namespace FlexMVVM
             }
         }
 
-        public void AddModules(List<IModule> modules)
-        {
-            this._moduleCatalog.AddModules (modules);
-        }
-
         public void AddModule<T>()
         {
             this._moduleCatalog.AddModule<T> ();
