@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FlexMVVM.Modularity
+namespace FlexMVVM
 {
     public interface IModule
     {

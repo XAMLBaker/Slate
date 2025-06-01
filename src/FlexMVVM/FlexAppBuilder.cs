@@ -1,9 +1,5 @@
-﻿using FlexMVVM.Modularity;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace FlexMVVM
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FlexMVVM.Modularity
+namespace FlexMVVM
 {
     public interface IModuleCatalog
     {
