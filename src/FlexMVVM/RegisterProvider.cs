@@ -1,7 +1,6 @@
 ﻿using DryIoc;
 using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace FlexMVVM
 {

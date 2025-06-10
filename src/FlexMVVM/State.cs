@@ -7,7 +7,6 @@ namespace FlexMVVM
 {
     public class State<T>: INotifyPropertyChanged
     {
-
         private T _value;
         private Func<T, T, Task<bool>> _beforeChangeAsync;
         private Func<T, T, Task> _afterChangeAsync;
