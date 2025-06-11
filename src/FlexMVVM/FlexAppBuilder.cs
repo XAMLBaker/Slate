@@ -36,14 +36,6 @@ namespace FlexMVVM
             this._moduleCatalog.AddModule<T> ();
         }
 
-        public void ModuleInitialize(IServiceProvider serviceProvider)
-        {
-            foreach (var module in this._moduleCatalog.GetModules())
-            {
-                module.Initialize (serviceProvider);
-            }
-        }
-
         public IModuleCatalog ModuleCatalog() => this._moduleCatalog;
     }
 }

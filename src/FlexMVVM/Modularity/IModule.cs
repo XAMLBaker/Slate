@@ -6,5 +6,6 @@ namespace FlexMVVM
     {
         void Register(IContainerRegistry containerRegistry);
         void Initialize(IServiceProvider containerProvider);
+        void ViewModelMapper(IViewModelMapper modelMapper);
     }
 }
