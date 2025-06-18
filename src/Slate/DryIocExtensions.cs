@@ -1,7 +1,7 @@
 ﻿using DryIoc;
 using System;
 
-namespace FlexMVVM
+namespace Slate
 {
     public static class DryIocExtensions
     {

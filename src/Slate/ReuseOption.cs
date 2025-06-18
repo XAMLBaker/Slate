@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlexMVVM
+namespace Slate
 {
     public enum ReuseOption
     {

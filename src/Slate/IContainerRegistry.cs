@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace FlexMVVM
+namespace Slate
 {
     public interface IContainerRegistry
     {

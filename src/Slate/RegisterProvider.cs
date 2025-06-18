@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace FlexMVVM
+namespace Slate
 {
     public static class RegisterProvider
     {
@@ -26,7 +26,7 @@ namespace FlexMVVM
         public static IContainer Container => _container;
         public static IServiceProvider ServiceProvider => _serviceProvider;
 
-        public static Type GetWindow() => _register.RegisterMap["FlexFrameworkWindow"];
+        public static Type GetWindow() => _register.RegisterMap["SlateFrameworkWindow"];
         public static object Window => _container.Resolve (GetWindow());
         public static Type GetDefineNestedLayout() => _register.NestedLayout;
         public static object Get<T>() => _container.Resolve<T> ();

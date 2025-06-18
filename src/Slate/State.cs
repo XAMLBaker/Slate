@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace FlexMVVM
+namespace Slate
 {
     public class State<T>: INotifyPropertyChanged
     {

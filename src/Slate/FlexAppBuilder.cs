@@ -1,20 +1,20 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace FlexMVVM
+namespace Slate
 {
-    public sealed class FlexAppBuilder
+    public sealed class SlateAppBuilder
     {
         /// <summary>
         /// 
         /// </summary>
         private readonly IContainerRegistry _containerRegistry;
         private readonly IModuleCatalog _moduleCatalog;
-        public FlexAppBuilder()
+        public SlateAppBuilder()
         {
         }
 
-        public FlexAppBuilder(IContainerRegistry containerRegistry, IModuleCatalog moduleCatalog)
+        public SlateAppBuilder(IContainerRegistry containerRegistry, IModuleCatalog moduleCatalog)
         {
             this._containerRegistry = containerRegistry;
             this._moduleCatalog = moduleCatalog;

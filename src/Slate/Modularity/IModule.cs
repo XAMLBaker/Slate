@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FlexMVVM
+namespace Slate
 {
     public interface IModule
     {

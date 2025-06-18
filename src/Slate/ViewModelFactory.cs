@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace FlexMVVM
+namespace Slate
 {
     public static class ViewModelFactory
     {
