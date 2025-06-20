@@ -5,8 +5,13 @@ using System.Threading.Tasks;
 
 namespace Slate
 {
-    public class State<T>: INotifyPropertyChanged
+    public interface IState
     {
+        object? Value { get; }
+    }
+    public class State<T>: INotifyPropertyChanged, IState
+    {
+        public static implicit operator State<T>(T value) => new State<T> (value);
         private T _value;
         private Func<T, T, Task<bool>> _beforeChangeAsync;
         private Func<T, T, Task> _afterChangeAsync;
@@ -33,6 +38,7 @@ namespace Slate
             get => _value;
             set => Set (value); // 강제로 async 경로로 이동
         }
+        object? IState.Value => Value;
 
         public void OnBeforeChangeAsync(Func<T, T, Task<bool>> handler)
             => _beforeChangeAsync = handler;
@@ -47,6 +53,5 @@ namespace Slate
         {
             _value = initialValue;
         }
-
     }
 }
