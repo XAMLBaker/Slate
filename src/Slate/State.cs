@@ -58,5 +58,9 @@ namespace Slate
         {
             Value = reducer (Value);
         }
+        public void Update(T value)
+        {
+            Value = value;
+        }
     }
 }
