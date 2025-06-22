@@ -53,5 +53,10 @@ namespace Slate
         {
             _value = initialValue;
         }
+
+        public void Update(Func<T, T> reducer)
+        {
+            Value = reducer (Value);
+        }
     }
 }
