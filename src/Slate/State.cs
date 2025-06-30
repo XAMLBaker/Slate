@@ -7,7 +7,7 @@ namespace Slate
 {
     public interface IState
     {
-        object? Value { get; }
+        object Value { get; }
     }
     public class State<T>: INotifyPropertyChanged, IState
     {
@@ -38,7 +38,7 @@ namespace Slate
             get => _value;
             set => Set (value); // 강제로 async 경로로 이동
         }
-        object? IState.Value => Value;
+        object IState.Value => Value;
 
         public void OnBeforeChangeAsync(Func<T, T, Task<bool>> handler)
             => _beforeChangeAsync = handler;
