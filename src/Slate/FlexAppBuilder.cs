@@ -2,7 +2,7 @@
 
 namespace Slate
 {
-    public sealed class SlateAppBuilder
+    internal class SlateAppBuilder
     {
         /// <summary>
         /// 
