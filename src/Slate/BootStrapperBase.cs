@@ -2,7 +2,7 @@
 {
     public class BootStrapperBase
     {
-        protected Fluent _fluent;
+        protected SlateFluent _fluent;
         public BootStrapperBase()
         {
 

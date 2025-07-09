@@ -16,7 +16,7 @@ namespace Slate
 
         public LayoutNavigator(IContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
         public async Task NavigateToAsync(string url, object argu = null)
@@ -39,9 +39,9 @@ namespace Slate
                 Type contentType = RegisterProvider.GetType (typeNameSpace);
 
                 string moduleName = contentType.Assembly.GetName ().Name;
-                int layoutCnt = (contentType.Namespace.Split ('.').Length - moduleName.Split ('.').Length);
+                int layoutCnt = contentType.Namespace.Split ('.').Length - moduleName.Split ('.').Length;
 
-                T rootLayout = default(T);
+                T rootLayout = default;
                 for (int i = 0; i < layoutCnt; i++)
                 {
                     var str = RemoveLastSegment (contentType.Namespace);
@@ -68,12 +68,12 @@ namespace Slate
             bool _isGroupedWithContent = IsGroupedWithContent (url);
 
             if ((_isGroupedWithLayout || _isGroupedWithContent) == false)
-                return default (T);
+                return default;
 
             if (_isGroupedWithLayout)
             {
                 Type layoutType = RegisterProvider.GetType (GetLayoutString (url));
-                var layoutFrameworkElement = (T)this._container.Resolve (layoutType);
+                var layoutFrameworkElement = (T)_container.Resolve (layoutType);
                 ((IShellComponent)layoutFrameworkElement).RegionAttached (argu);
 
                 if (_isGroupedWithContent == false)
@@ -81,7 +81,7 @@ namespace Slate
             }
 
             Type contentType = RegisterProvider.GetType (GetContentString (url));
-            var contentFrameworkElement = (T)this._container.Resolve (contentType);
+            var contentFrameworkElement = (T)_container.Resolve (contentType);
             ((IShellComponent)contentFrameworkElement).RegionAttached (argu);
 
             return contentFrameworkElement;

@@ -25,7 +25,7 @@ namespace Slate
     }
     public static partial class RegisterProvider
     {
-        public static Type GetDefineNestedLayout() => _register.NestedLayout;
+        public static Type GetDefineNestedLayout => _register.InitialLayout;
         public static bool HasPartialKeyMatch(string url) => _register.RegisterMap.Keys.Any (x => x.Contains (url));
         public static bool IsUrlRegistered(string url) => _register.RegisterMap.ContainsKey (url);
         public static Type GetType(string _nameSpace) => _register.RegisterMap[_nameSpace];
