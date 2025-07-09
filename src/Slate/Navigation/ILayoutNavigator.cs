@@ -8,6 +8,8 @@ namespace Slate
     public interface ILayoutNavigator
     {
         Task NavigateToAsync(string url, object argu = null);
+
+        Task CallComponent(string url, object argu = null);
     }
 
     public class LayoutNavigator<T> : ILayoutNavigator
@@ -17,6 +19,16 @@ namespace Slate
         public LayoutNavigator(IContainer container)
         {
             _container = container;
+        }
+
+        public async Task CallComponent(string url, object argu = null)
+        {
+            if (url[0] == '/' || url[0] == '.')
+            {
+                url = url.Remove (0, 1);
+            }
+            string _url = url.Replace ('/', '.');
+            CreateLayout (_url, argu);
         }
 
         public async Task NavigateToAsync(string url, object argu = null)
