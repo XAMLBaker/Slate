@@ -7,8 +7,8 @@ namespace Slate
     {
         void Register<TView, TViewModel>(ReuseOption reuse);
         (Type vmType, ReuseOption reuse)? GetViewModel(Type viewType);
-
     }
+
     public class ViewModelMapper : IViewModelMapper
     {
         private readonly Dictionary<Type, (Type vmType, ReuseOption reuse)> _map = new Dictionary<Type, (Type vmType, ReuseOption reuse)> ();

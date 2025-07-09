@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Slate
 {
@@ -12,12 +11,8 @@ namespace Slate
         private readonly IModuleCatalog _moduleCatalog;
         public SlateAppBuilder()
         {
-        }
-
-        public SlateAppBuilder(IContainerRegistry containerRegistry, IModuleCatalog moduleCatalog)
-        {
-            this._containerRegistry = containerRegistry;
-            this._moduleCatalog = moduleCatalog;
+            this._containerRegistry = new ContainerRegistry ();
+            this._moduleCatalog = new ModuleCatalog ();
         }
 
         public IContainerRegistry ContainerRegistry => this._containerRegistry;
