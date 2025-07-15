@@ -40,5 +40,4 @@ namespace Slate
         public static T ResolveOrCreate<T>(ReuseOption reuse)
             => (T)ResolveOrCreate (typeof (T), reuse);
     }
-
 }

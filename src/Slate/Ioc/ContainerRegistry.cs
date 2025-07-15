@@ -6,10 +6,19 @@ namespace Slate
 {
     public class ContainerRegistry : IContainerRegistry
     {
-        private readonly ServiceCollection _services = new ServiceCollection ();
+        private readonly IServiceCollection _services;
 
         public ContainerRegistry()
         {
+            _services = new ServiceCollection ();
+            // Lazy-load the ConfigurationManager, so it isn't created if it is never used.
+            // Don't capture the 'this' variable in AddSingleton, so MauiAppBuilder can be GC'd.
+            var configuration = new Lazy<ConfigurationManager> (() => new ConfigurationManager ());
+            _services.AddSingleton<IConfiguration> (sp => configuration.Value);
+        }
+        public ContainerRegistry(IServiceCollection services)
+        {
+            this._services = services;
             // Lazy-load the ConfigurationManager, so it isn't created if it is never used.
             // Don't capture the 'this' variable in AddSingleton, so MauiAppBuilder can be GC'd.
             var configuration = new Lazy<ConfigurationManager> (() => new ConfigurationManager ());
@@ -50,6 +59,7 @@ namespace Slate
             RegisterProvider.AddRegister (_key, component.GetType ());
             return this;
         }
+
         public IServiceCollection Services => this._services;
     }
 }

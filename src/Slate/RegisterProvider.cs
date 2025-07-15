@@ -30,9 +30,10 @@ namespace Slate
         public static bool IsUrlRegistered(string url) => _register.RegisterMap.ContainsKey (url);
         public static Type GetType(string _nameSpace) => _register.RegisterMap[_nameSpace];
         public static void AddRegister(string key, Type type) => _register.RegisterMap[key] = type;
+        public static Type Window => _register.RegisterMap["SlateFrameworkWindow"];
+
 
         public static IContainer Container => _container;
-        public static object Window => _container.Resolve (_register.RegisterMap["SlateFrameworkWindow"]);
-        public static object Get<T>() => _container.Resolve<T> ();
+        public static T Get<T>() => _container.Resolve<T> ();
     }
 }
