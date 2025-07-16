@@ -3,6 +3,7 @@
     public enum ReuseOption
     {
         Transient,
-        Singleton
+        Singleton,
+        None,
     }
 }
