@@ -1,25 +1,24 @@
-﻿using DryIoc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Slate
 {
     public interface IViewModelMapper
     {
-        void Register<TView, TViewModel>(ReuseOption reuse);
-        (Type vmType, ReuseOption reuse)? GetViewModel(Type viewType);
+        void Register<TView, TViewModel>();
+        Type GetViewModel(Type viewType);
     }
 
     public class ViewModelMapper : IViewModelMapper
     {
-        private readonly Dictionary<Type, (Type vmType, ReuseOption reuse)> _map = new Dictionary<Type, (Type vmType, ReuseOption reuse)> ();
-        public void Register<TView, TViewModel>(ReuseOption reuse)
+        private readonly Dictionary<Type, Type> _map = new Dictionary<Type, Type> ();
+        public void Register<TView, TViewModel>()
         {
-            _map[typeof (TView)] = (typeof (TViewModel), reuse);
+            _map[typeof (TView)] = typeof (TViewModel);
         }
-        public (Type vmType, ReuseOption reuse)? GetViewModel(Type viewType)
+        public Type GetViewModel(Type viewType)
         {
-            return _map.TryGetValue (viewType, out var tuple) ? tuple : (ValueTuple<Type, ReuseOption>?)null;
+            return _map.TryGetValue (viewType, out var tuple) ? tuple : null;
         }
     }
 }
